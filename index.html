@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>赛博提示词 | 策略与模版库 · 高级色彩</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 深邃背景 + 精致网格 */
+        body {
+            background: radial-gradient(ellipse at 30% 20%, #0C1122, #010105);
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            padding: 2rem 1.2rem;
+            color: #EAF0FF;
+        }
+
+        /* 主容器 — 无外围边框，高级玻璃质感 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: rgba(6, 10, 20, 0.6);
+            backdrop-filter: blur(14px);
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.03);
+            overflow: hidden;
+            padding: 2.5rem 2.5rem 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 统一标题字体 — 所有大标题+小标题同一字体，区别于正文 */
+        h1, h2, h3, .hero h1, .hero .sub, .chapter-header h2, .block-header h3, .nav-jump a {
+            font-family: 'Rajdhani', 'Segoe UI', 'Roboto Condensed', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        /* 正文内容字体 */
+        p, li, .block-content, .code-block, .clean-table, .feature-tag, .footer-note, .inline-eng, .high-level-box {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        /* ========= 标题区 — 减少动画，静态高级光感 ========= */
+        .hero {
+            text-align: center;
+            margin-bottom: 2.8rem;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00FFFF, #FF44CC, #AA66FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+            margin-bottom: 0.5rem;
+            /* 移除动画，保持静态优雅 */
+        }
+        .hero .sub {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #B8D0FF;
+            border-top: 1px solid rgba(0, 255, 255, 0.5);
+            display: inline-block;
+            padding-top: 0.6rem;
+            letter-spacing: 2px;
+        }
+
+        /* 导航 */
+        .nav-jump {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0 2rem;
+            flex-wrap: wrap;
+        }
+        .nav-jump a {
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1.8rem;
+            border-radius: 60px;
+            background: rgba(0, 30, 40, 0.5);
+            color: #0ff;
+            font-size: 1rem;
+            transition: all 0.25s;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 6px rgba(0,255,255,0.3);
+        }
+        .nav-jump a:hover {
+            background: #00ffff22;
+            color: #ffffff;
+            box-shadow: 0 0 16px #ff66cc;
+            transform: translateY(-2px);
+        }
+
+        /* ========= 章节卡片 (独立色彩，无外框) ========= */
+        .chapter-card {
+            border-radius: 2rem;
+            margin: 2rem 0 2.4rem;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        /* 第一章：深蓝青冷调 — 高级感 */
+        .chapter-card.chap1 {
+            background: linear-gradient(125deg, rgba(0, 45, 60, 0.6), rgba(2, 12, 22, 0.9));
+            box-shadow: 0 10px 28px -8px rgba(0, 210, 230, 0.2);
+        }
+        .chapter-card.chap1 .chapter-header {
+            background: linear-gradient(90deg, rgba(0, 180, 200, 0.2), rgba(0, 30, 45, 0.7));
+            border-left: 4px solid #0ff;
+        }
+        .chapter-card.chap1 .chapter-header h2 {
+            color: #8effff;
+            text-shadow: 0 0 4px #0ff;
+        }
+        /* 第一章六个策略标题使用统一的高亮青蓝色（明显且高级） */
+        .chapter-card.chap1 .block-header h3 {
+            color: #2efff0;
+            text-shadow: 0 0 2px rgba(0,255,255,0.4);
+        }
+
+        /* 第二章：紫灰高级感 */
+        .chapter-card.chap2 {
+            background: linear-gradient(125deg, rgba(45, 20, 70, 0.6), rgba(6, 6, 18, 0.9));
+            box-shadow: 0 10px 28px -8px rgba(200, 100, 255, 0.25);
+        }
+        .chapter-card.chap2 .chapter-header {
+            background: linear-gradient(90deg, rgba(200, 100, 255, 0.2), rgba(35, 10, 55, 0.7));
+            border-left: 4px solid #cc88ff;
+        }
+        .chapter-card.chap2 .chapter-header h2 {
+            color: #e4b5ff;
+            text-shadow: 0 0 4px #c45eff;
+        }
+        .chapter-card.chap2 .block-header h3 {
+            color: #e7c5ff;
+        }
+
+        .chapter-header {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chapter-header h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 650;
+        }
+        .chapter-indicator {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #9effff;
+        }
+        .chapter-content {
+            padding: 1.5rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.25);
+        }
+        .chapter-card.collapsed .chapter-content { display: none; }
+
+        /* ========= 内部策略块 — 统一柔和背景 ========= */
+        .insight-block {
+            margin: 1.3rem 0;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            background: rgba(10, 18, 28, 0.5);
+            transition: all 0.2s;
+        }
+        .block-header {
+            padding: 0.8rem 1.6rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(20, 28, 40, 0.4);
+            border-radius: 1.5rem;
+        }
+        .block-header h3 {
+            margin: 0;
+            font-size: 1.55rem;
+            font-weight: 600;
+        }
+        .block-indicator {
+            font-size: 1.4rem;
+            color: #88aaff;
+        }
+        .block-content {
+            padding: 0.2rem 1.8rem 1.2rem 1.8rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .insight-block.collapsed .block-content { display: none; }
+
+        /* 彩色圆圈列表 — 统一单色无边框（第一章下保持低调青蓝） */
+        .cyber-list {
+            list-style: none;
+            margin: 0.8rem 0 0.5rem;
+            padding-left: 0;
+        }
+        .cyber-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 1.05rem;
+        }
+        .cyber-list li .circle-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #0ff, #0099dd);
+            color: #010511;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: none;
+            flex-shrink: 0;
+        }
+
+        /* 其他组件样式统一优化 */
+        .highlight {
+            background: rgba(0, 255, 255, 0.2);
+            padding: 0 0.2rem;
+            border-radius: 6px;
+            color: #0ff;
+            font-weight: 500;
+        }
+        .code-block {
+            background: #0A0F1A;
+            border-left: 3px solid #0ff;
+            padding: 1rem 1.4rem;
+            border-radius: 18px;
+            font-size: 0.88rem;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+        }
+        .clean-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 18px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .clean-table th, .clean-table td {
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            padding: 10px 14px;
+            text-align: left;
+            color: #E0E4F0;
+        }
+        .clean-table th {
+            background: rgba(0, 40, 50, 0.7);
+            color: #0ff;
+            font-weight: 600;
+        }
+        .inline-eng {
+            font-size: 0.75rem;
+            color: #aac9ff;
+        }
+        .high-level-box {
+            background: rgba(0, 20, 30, 0.5);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(200, 100, 255, 0.3);
+        }
+        .feature-tag {
+            background: rgba(0, 200, 255, 0.12);
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #ccf7ff;
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 255, 255, 0.3);
+            color: #8f9bb5;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 780px) {
+            .container { padding: 1.2rem; }
+            .hero h1 { font-size: 2.4rem; }
+            .chapter-header h2 { font-size: 1.5rem; }
+            .block-header h3 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1>让AI给出你想要的答案</h1>
+        <div class="sub">STRUCTURED PROMPTS · 六大策略 · 高级模版库</div>
+    </div>
+
+    <div class="nav-jump">
+        <a href="#chap1">第一章 · 六维策略</a>
+        <a href="#chap2">第二章 · 结构化引擎 & 模版库</a>
+    </div>
+
+    <!-- ================= 第一章 六大策略 ================= -->
+    <div class="chapter-card chap1" id="chap1">
+        <div class="chapter-header" onclick="toggleChapter(this)">
+            <h2>第一章 · 六大提示词策略</h2>
+            <span class="chapter-indicator">▼</span>
+        </div>
+        <div class="chapter-content">
+            <p style="margin-bottom: 1rem;">六大核心策略，消除歧义，精准驾驭AI输出。</p>
+
+            <div class="insight-block">
+                <div class="block-header" onclick="toggleBlock(this)">
+                    <h3>策略一 · 写清晰的指令</h3>
+                    <span class="block-indicator">▼</span>
+                </div>
+                <div class="block-content">
+                    <p><strong>核心原则：</strong>消除歧义，使用四要素框架 —— <span class="highlight">角色(Role) + 任务(Task) + 格式(Format) + 约束(Constraint)</span>。</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.8rem 0;">
+                        <div style="flex:1; background:rgba(0,200,230,0.08); border-radius: 20px; padding: 0.8rem;"><strong>模糊指令</strong><br>“帮我写一段产品介绍。”</div>
+                        <div style="flex:1; background:rgba(0,200,230,0.08); border-radius: 20px; padding: 0.8rem;"><strong>清晰指令</strong><br>“你是一位科技产品经理，为‘智能会议本’撰写200字产品介绍，突出商务语气。”</div>
+                    </div>
+                    <p><strong>效果：</strong>输出可直接用于官网文案，无需修改。</p>
+                </div>
+            </div>
+
+            <div class="insight-block">
+                <div class="block-header" onclick="toggleBlock(this)">
+                    <h3>策略二 · 提供参考文本</h3>
+                    <span class="block-indicator">▼</span>
+                </div>
+                <div class="block-content">
+                    <p><strong>核心原则：</strong>通过示例引导模型风格与结构，适用于有固定范式的任务。</p>
+                    <div class="code-block" style="border-left-color: #0ff;">参考格式示例：<br>主题：【功能更新】智能分析功能正式上线<br>尊敬的[用户名]，我们很高兴向您介绍...主要特性：实时数据分析 · 可视化报表生成</div>
+                    <p><strong>效果：</strong>输出与参考格式高度一致，风格专业。</p>
+                </div>
+            </div>
+
+            <div class="insight-block">
+                <div class="block-header" onclick="toggleBlock(this)">
+                    <h3>策略三 · 将复杂任务拆分为子任务</h3>
+                    <span class="block-indicator">▼</span>
+                </div>
+                <div class="block-content">
+                    <p><strong>核心原则：</strong>大任务 ⇒ 小步骤，逐步引导。适用于竞品分析、长文档等。</p>
+                    <p><strong>案例步骤（竞品分析报告）：</strong></p>
+                    <ul class="cyber-list">
+                        <li><span class="circle-num">1</span> 列出竞品名称及官网链接</li>
+                        <li><span class="circle-num">2</span> 对比三者定价模式，用表格呈现</li>
+                        <li><span class="circle-num">3</span> 分析各自优劣势</li>
+                        <li><span class="circle-num">4</span> 总结差异化竞争建议</li>
+                    </ul>
+                    <p><strong>效果：</strong>每个步骤输出清晰，整合成高质量报告。</p>
+                </div>
+            </div>
+
+            <div class="insight-block">
+                <div class="block-header" onclick="toggleBlock(this)">
+                    <h3>策略四 · 给模型“思考”时间</h3>
+                    <span class="block-indicator">▼</span>
+                </div>
+                <div class="block-content">
+                    <p><strong>核心原则：</strong>要求模型先输出推理过程再给结论，提升可解释性。</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <div style="background:rgba(0,200,230,0.08); border-radius: 20px; padding: 0.8rem; flex:1;"><strong>直接提问</strong><br>“这个项目的风险是什么？”</div>
+                        <div style="background:rgba(0,200,230,0.08); border-radius: 20px; padding: 0.8rem; flex:1;"><strong>引导思考</strong><br>“请先列出三个关键环节，分析风险，排序后给出应对措施。”</div>
+                    </div>
+                    <p><strong>效果：</strong>展示推理链，决策可审计。</p>
+                </div>
+            </div>
+
+            <div class="insight-block">
+                <div class="block-header" onclick="toggleBlock(this)">
+                    <h3>策略五 · 使用外部工具</h3>
+                    <span class="block-indicator">▼</span>
+                </div>
+                <div class="block-content">
+                    <p><strong>核心原则：</strong>调用代码解释器、联网搜索等外部能力，提升准确性。</p>
+                    <p><strong>案例：</strong>“请使用代码解释器，计算过去12个月销售数据的移动平均值，并生成折线图。”</p>
+                    <p><strong>效果：</strong>自动生成Python代码 + 可视化图表，结果精确。</p>
+                </div>
+            </div>
+
+            <div class="insight-block">
+                <div class="block-header" onclick="toggleBlock(this)">
+                    <h3>策略六 · 系统化测试与迭代</h3>
+                    <span class="block-indicator">▼</span>
+                </div>
+                <div class="block-content">
+                    <p><strong>核心原则：</strong>版本控制、A/B测试持续优化提示词。</p>
+                    <table class="clean-table">
+                        <thead><tr><th>版本</th><th>提示词变更</th><th>评分</th><th>备注</th></tr></thead>
+                        <tbody>
+                            <tr><td>v1</td><td>基础指令</td><td>3/5</td><td>内容泛化</td></tr>
+                            <tr><td>v2</td><td>增加角色+格式</td><td>4/5</td><td>结构清晰</td></tr>
+                            <tr><td>v3</td><td>增加示例+约束</td><td>5/5</td><td>可直接使用</td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>效果：</strong>经过3轮迭代，准确率提升至95%以上。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 第二章 结构化提示词 & 模版库 ================= -->
+    <div class="chapter-card chap2" id="chap2">
+        <div class="chapter-header" onclick="toggleChapter(this)">
+            <h2>第二章 · 结构化提示词 & 模版库</h2>
+            <span class="chapter-indicator">▼</span>
+        </div>
+        <div class="chapter-content">
+
+            <div class="insight-block">
+                <div class="block-header" onclick="toggleBlock(this)">
+                    <h3>什么是结构化提示词</h3>
+                    <span class="block-indicator">▼</span>
+                </div>
+                <div class="block-content">
+                    <p>将指令模块化组织：<span class="highlight">角色(ROLE) + 背景(BACKGROUND) + 目标(OBJECTIVE) + 约束(CONSTRAINT) + 输出格式(FORMAT) + 示例(EXAMPLE)</span>。这种<strong>模块化、变量化、顺序敏感</strong>的方式，提升复用性、低歧义性、易调试性。</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1rem 0;">
+                        <span class="feature-tag">可复用性</span>
+                        <span class="feature-tag">低歧义性</span>
+                        <span class="feature-tag">易调试性</span>
+                        <span class="feature-tag">协作友好</span>
+                    </div>
+                    <p>适用于复杂、高风险任务，构建可靠AI基础设施。</p>
+                </div>
+            </div>
+
+            <div class="insight-block">
+                <div class="block-header" onclick="toggleBlock(this)">
+                    <h3>提示词模板库 & 高级案例</h3>
+                    <span class="block-indicator">▼</span>
+                </div>
+                <div class="block-content">
+                    <p>经典模板开箱即用，并配有英文全称便于团队协作。</p>
+                    <table class="clean-table">
+                        <thead><tr><th>模板名称</th><th>英文全称 / 结构</th><th>适用场景</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>BRTR</strong></td><td><span class="inline-eng">Background + Role + Task + Requirement</span><br>背景 + 角色 + 任务 + 要求</td><td>报告撰写、方案策划</td></tr>
+                            <tr><td><strong>BROKE</strong></td><td><span class="inline-eng">Background + Role + Objectives + Key Results + Evolve</span><br>背景 + 角色 + 目标 + 关键成果 + 迭代</td><td>敏捷目标设定、OKR对齐</td></tr>
+                            <tr><td><strong>CRAFT</strong></td><td><span class="inline-eng">Context + Role + Action + Format + Tone</span><br>上下文 + 角色 + 行动 + 格式 + 语气</td><td>营销文案、品牌内容</td></tr>
+                            <tr><td><strong>RACE</strong></td><td><span class="inline-eng">Role + Action + Context + Expectation</span><br>角色 + 行动 + 上下文 + 期望</td><td>客服回复、用户沟通</td></tr>
+                            <tr><td><strong>TAG</strong></td><td><span class="inline-eng">Task + Action + Goal</span><br>任务 + 行动 + 目标</td><td>简洁指令、快速任务</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="high-level-box">
+                        <h4 style="color: #e2b0ff; margin-bottom: 0.5rem; font-family: 'Rajdhani', sans-serif;">高级案例 · 多策略融合（智慧养老可行性分析）</h4>
+                        <div class="code-block" style="border-left-color: #cc88ff;">
+                            角色：老年社会政策研究员<br>
+                            背景：评估“居家智慧养老”可行性，面向65岁以上长者。<br>
+                            任务：<br>
+                            1. 列出三大核心痛点（紧急呼叫、慢性病监测、社交孤岛）<br>
+                            2. 针对每个痛点提供技术方案参考<br>
+                            3. 用表格对比成本与易用性（五级评价）<br>
+                            4. 给出2条落地建议<br>
+                            约束：通俗易懂，关注心理接受度<br>
+                            输出格式：分步推理 + 总结表格
+                        </div>
+                        <p><strong>融合策略：</strong>清晰指令、任务拆解、思考链、结构化模块 — 输出可靠可追溯。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 结尾简约装饰 -->
+    <div style="background: rgba(0, 200, 210, 0.04); border-radius: 24px; padding: 1.2rem; text-align: center; margin-top: 1rem;">
+        <p style="font-size: 0.9rem; letter-spacing: 1px;">六大策略 + 结构化模版 = 稳定 · 可控 · 进化的AI对话</p>
+    </div>
+    <div class="footer-note">
+        <p>驾驭底层逻辑 · 让AI答案精准而温暖</p>
+    </div>
+</div>
+
+<script>
+    function toggleChapter(headerElem) {
+        const card = headerElem.closest('.chapter-card');
+        if (!card) return;
+        const content = card.querySelector('.chapter-content');
+        const indicator = headerElem.querySelector('.chapter-indicator');
+        if (card.classList.contains('collapsed')) {
+            card.classList.remove('collapsed');
+            if (indicator) indicator.innerHTML = '▼';
+        } else {
+            card.classList.add('collapsed');
+            if (indicator) indicator.innerHTML = '▶';
+        }
+    }
+    function toggleBlock(headerElem) {
+        const block = headerElem.closest('.insight-block');
+        if (!block) return;
+        const content = block.querySelector('.block-content');
+        const indicator = headerElem.querySelector('.block-indicator');
+        if (block.classList.contains('collapsed')) {
+            block.classList.remove('collapsed');
+            if (indicator) indicator.innerHTML = '▼';
+        } else {
+            block.classList.add('collapsed');
+            if (indicator) indicator.innerHTML = '▶';
+        }
+    }
+    // 默认全部展开
+    document.querySelectorAll('.chapter-card').forEach(c => c.classList.remove('collapsed'));
+    document.querySelectorAll('.insight-block').forEach(b => b.classList.remove('collapsed'));
+
+    // 键盘可访问
+    document.querySelectorAll('.chapter-header, .block-header').forEach(el => {
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
+        el.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (el.classList.contains('chapter-header')) toggleChapter(el);
+                else toggleBlock(el);
+            }
+        });
+    });
+</script>
+</body>
+</html>
