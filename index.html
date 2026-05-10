@@ -339,8 +339,29 @@
                 </div>
                 <div class="block-content">
                     <p><strong>核心原则：</strong>通过示例引导模型风格与结构，适用于有固定范式的任务。</p>
-                    <div class="code-block" style="border-left-color: #0ff;">参考格式示例：<br>主题：【功能更新】智能分析功能正式上线<br>尊敬的[用户名]，我们很高兴向您介绍...主要特性：实时数据分析 · 可视化报表生成</div>
-                    <p><strong>效果：</strong>输出与参考格式高度一致，风格专业。</p>
+                    <p style="margin:0.8rem 0 0.5rem; color:#8effff; font-weight:600;">前后对比：是否提供参考文本，输出质量天壤之别</p>
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin:0.8rem 0;">
+                        <div style="flex:1; min-width:260px; background:rgba(255,80,80,0.10); border-radius:16px; padding:1rem; border:1px solid rgba(255,80,80,0.30);">
+                            <div style="color:#ff8888; font-weight:600; margin-bottom:0.5rem;">无参考文本（模糊输出）</div>
+                            <div style="font-size:0.92rem; color:#ffcccc; line-height:1.8;">
+                                提示词：帮我写一封产品更新通知邮件。<br><br>
+                                <span style="color:#ffaaaa;">AI输出：「亲爱的用户，我们很高兴地通知您，产品有了一些新的更新，希望您会喜欢！」</span><br><br>
+                                <span style="color:#ff6666; font-size:0.82rem;">问题：语气随意、格式不统一、每次输出都不一样</span>
+                            </div>
+                        </div>
+                        <div style="flex:1; min-width:260px; background:rgba(80,255,160,0.10); border-radius:16px; padding:1rem; border:1px solid rgba(80,255,160,0.30);">
+                            <div style="color:#66ffaa; font-weight:600; margin-bottom:0.5rem;">提供参考文本（精准输出）</div>
+                            <div style="font-size:0.92rem; color:#ccffdd; line-height:1.8;">
+                                提示词附参考格式：<br>
+                                「参考此格式写邮件：<br>
+                                主题：【功能更新】XXX<br>
+                                尊敬的[用户名]，本次更新：· 特性1 · 特性2」<br><br>
+                                <span style="color:#aaffcc;">AI输出：「主题：【功能更新】智能报表上线<br>尊敬的张三，本次更新：· 实时数据分析 · 可视化报表生成」</span><br><br>
+                                <span style="color:#66cc88; font-size:0.82rem;">优势：格式统一、语气专业、可直接使用</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="margin-top:0.8rem;"><strong>关键技巧：</strong>提供参考时，给出 <span class="highlight">1个完整示例</span> 比写10条格式要求更有效。</p>
                 </div>
             </div>
 
