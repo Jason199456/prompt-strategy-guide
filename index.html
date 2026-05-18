@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>让AI给出你想要的答案</title>
     <style>
+        html { scroll-behavior: smooth; }
         * {
             margin: 0;
             padding: 0;
@@ -18,6 +19,7 @@
             line-height: 1.5;
             padding: 2rem 1.2rem;
             color: #EAF0FF;
+            overflow-x: hidden;
         }
 
         /* 主容器 — 无外围边框，高级玻璃质感 */
@@ -312,6 +314,88 @@
             .hero h1 { font-size: 2.4rem; }
             .chapter-header h2 { font-size: 1.5rem; }
             .block-header h3 { font-size: 1.3rem; }
+        }
+
+        /* 移动端：表格横向可滚动 */
+        @media (max-width: 900px) {
+            .clean-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; }
+        }
+
+        /* ========= 移动端深度优化 ========= */
+
+        /* 平板 */
+        @media (max-width: 900px) {
+            body { padding: 1.2rem 0.8rem; }
+            .container { padding: 1.5rem 1.2rem; }
+            .chapter-header { padding: 0.8rem 1.2rem; }
+            .chapter-content { padding: 1rem 1.2rem 1.5rem; }
+            .block-header { padding: 0.6rem 1rem; }
+            .block-content { padding: 0.2rem 1.2rem 1rem; }
+            .nav-jump { gap: 0.8rem; }
+            .nav-jump a { padding: 0.4rem 1.2rem; font-size: 0.9rem; }
+        }
+
+        /* 手机横屏 / 大手机 */
+        @media (max-width: 640px) {
+            body { padding: 0.8rem 0.5rem; }
+            .container { padding: 1rem 0.8rem; border-radius: 1.5rem; }
+            .hero { margin-bottom: 1.8rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero .sub { font-size: 0.95rem; }
+            .nav-jump { gap: 0.6rem; }
+            .nav-jump a { padding: 0.35rem 0.9rem; font-size: 0.8rem; border-radius: 40px; }
+            .chapter-card { margin: 1.2rem 0; border-radius: 1.2rem; }
+            .chapter-header { padding: 0.7rem 1rem; min-height: 48px; }
+            .chapter-header h2 { font-size: 1.25rem; }
+            .chapter-indicator { font-size: 1.2rem; }
+            .chapter-content { padding: 0.8rem 1rem 1.2rem; }
+            .insight-block { margin: 0.8rem 0; border-radius: 1rem; }
+            .block-header { padding: 0.5rem 0.8rem; min-height: 44px; }
+            .block-header h3 { font-size: 1.1rem; }
+            .block-indicator { font-size: 1.1rem; }
+            .block-content { padding: 0.2rem 0.8rem 0.8rem; }
+
+            /* 并排对比卡片 → 纵向排列 */
+            .chapter-card .chapter-content div[style*="display: flex"][style*="flex-wrap: wrap"] {
+                flex-direction: column !important;
+            }
+
+            /* 正文字号调整 */
+            p, li { font-size: 0.95rem; }
+            .cyber-list li { font-size: 0.92rem; gap: 10px; }
+            .cyber-list li .circle-num { width: 26px; height: 26px; font-size: 0.8rem; }
+            .code-block { padding: 0.7rem 1rem; font-size: 0.8rem; margin: 0.6rem 0; }
+            .clean-table { font-size: 0.82rem; }
+            .clean-table th, .clean-table td { padding: 6px 8px; }
+            .inline-eng { font-size: 0.68rem; }
+            .high-level-box { padding: 0.7rem 1rem; border-radius: 14px; }
+            .feature-tag { font-size: 0.75rem; padding: 0.2rem 0.7rem; }
+
+            /* PDF 下载卡片 */
+            .chapter-card.chap2 .block-content div[style*="flex-wrap: wrap"][style*="justify-content: center"] a {
+                min-width: 0 !important;
+                max-width: 100% !important;
+            }
+            .chapter-card.chap2 .block-content div[style*="flex-wrap: wrap"][style*="justify-content: center"] a div {
+                padding: 1rem 1rem !important;
+            }
+
+            .footer-note { font-size: 0.78rem; margin-top: 1.2rem; }
+        }
+
+        /* 小手机 */
+        @media (max-width: 380px) {
+            body { padding: 0.5rem 0.3rem; }
+            .container { padding: 0.7rem 0.5rem; border-radius: 1rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .hero .sub { font-size: 0.85rem; }
+            .nav-jump a { font-size: 0.72rem; padding: 0.3rem 0.7rem; }
+            .chapter-header h2 { font-size: 1.1rem; }
+            .block-header h3 { font-size: 1rem; }
+            p, li { font-size: 0.88rem; }
+            .code-block { font-size: 0.75rem; padding: 0.5rem 0.7rem; }
+            .clean-table { font-size: 0.75rem; }
+            .clean-table th, .clean-table td { padding: 4px 6px; }
         }
     </style>
 </head>
